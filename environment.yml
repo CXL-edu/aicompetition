@@ -1,0 +1,19 @@
+name: websocietysimulator
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python>=3.10,<4.0
+  - pandas=2.2.3
+  - seaborn=0.13.2
+  - tqdm=4.67.1
+  - nltk=3.9.1
+  - openai=1.58.1
+  - langchain=0.3.13
+  - langchain-openai=0.2.14
+  - langchain-chroma=0.1.4
+  - transformers=4.48.0
+  - sentence-transformers=3.3.1
+  - pip
+  - pip:
+      - torch @ https://download.pytorch.org/whl/cu121/torch-2.1.0%2Bcu121-cp311-cp311-win_amd64.whl
