@@ -1,0 +1,18 @@
+{
+    "type": "simulation",
+    "metrics": {
+        "preference_estimation": 0.21974999999999734,
+        "review_generation": 0.59707177911464,
+        "overall_quality": 0.4084108895573187
+    },
+    "data_info": {
+        "evaluated_count": 400,
+        "original_simulation_count": 400,
+        "original_ground_truth_count": 400
+    },
+    "线上得分": {
+        "preference_estimation": 0.7383,
+        "review_generation": 0.8377,
+        "overall_quality": 0.7880
+    }
+}

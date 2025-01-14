@@ -1,0 +1,8 @@
+{
+    "type": "simulation",
+    "线上得分": {
+        "preference_estimation": 0.7950,
+        "review_generation": 0.8758,
+        "overall_quality": 0.8354
+    }
+}

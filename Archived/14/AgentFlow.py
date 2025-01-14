@@ -1,12 +1,8 @@
-from websocietysimulator import Simulator
 from websocietysimulator.agent import SimulationAgent
-import json 
-from websocietysimulator.llm import LLMBase, InfinigenceLLM
+from websocietysimulator.llm import LLMBase
 from websocietysimulator.agent.modules.planning_modules import PlanningBase 
 from websocietysimulator.agent.modules.reasoning_modules import ReasoningBase
 from websocietysimulator.agent.modules.memory_modules import MemoryDILU
-import logging
-logging.basicConfig(level=logging.INFO)
 
 class PlanningBaseline(PlanningBase):
     """Inherit from PlanningBase"""
@@ -72,6 +68,8 @@ class MySimulationAgent(SimulationAgent):
             tuple: (star (float), useful (float), funny (float), cool (float), review_text (str))
         """
         try:
+            for val in self.interaction_tool.user_data.values():
+                if 'friends' in val: del val['friends']
             plan = self.planning(task_description=self.task)
 
             for sub_task in plan:
@@ -85,12 +83,20 @@ class MySimulationAgent(SimulationAgent):
                 self.memory(f'review: {review_text}')
             reviews_user = self.interaction_tool.get_reviews(user_id=self.task['user_id'])
             review_similar = self.memory(f'{reviews_user[0]["text"]}')
+
+            self.memory_user_review = MemoryDILU(llm=self.llm)
+            for review in reviews_user:
+                self.memory_user_review(f'review:{review["text"]}')
+            reviews_user_item = self.memory_user_review(f'{business}')
+
             task_description = f'''
             You are a real human user on Yelp, a platform for crowd-sourced business reviews. Here is your Yelp profile and review history: {user}
 
             You need to write a review for this business: {business}
 
             Others have reviewed this business before: {review_similar}
+
+            Your comments on similar business: {reviews_user_item}
 
             Please analyze the following aspects carefully:
             1. Based on your user profile and review style, what rating would you give this business? Remember that many users give 5-star ratings for excellent experiences that exceed expectations, and 1-star ratings for very poor experiences that fail to meet basic standards.
@@ -139,27 +145,4 @@ class MySimulationAgent(SimulationAgent):
                 "stars": 0,
                 "review": ""
             }
-
-if __name__ == "__main__":
-    # Set the data
-    task_set = "amazon" # "goodreads" or "yelp"
-    simulator = Simulator(data_dir="dataset", device="gpu", cache=False)
-    simulator.set_task_and_groundtruth(task_dir=f"example/track1/{task_set}/tasks", groundtruth_dir=f"example/track1/{task_set}/groundtruth")
-
-    # Set the agent and LLM
-    simulator.set_agent(MySimulationAgent)
-    simulator.set_llm(InfinigenceLLM(api_key="sk-damtsffnbbpo3bbo"))
-
-    # Run the simulation
-    # If you don't set the number of tasks, the simulator will run all tasks.
-    number_of_tasks = 10    # None
-    outputs = simulator.run_simulation(number_of_tasks=number_of_tasks, enable_threading=True, max_workers=10)
-    
-    # Evaluate the agent
-    evaluation_results = simulator.evaluate()       
-    with open(f'./evaluation_results_track1_{task_set}.json', 'w') as f:
-        json.dump(evaluation_results, f, indent=4)
-
-    # Get evaluation history
-    evaluation_history = simulator.get_evaluation_history()
-    
+            
