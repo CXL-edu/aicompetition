@@ -13,6 +13,7 @@ pip install -r requirements.txt
 # 第三种方式，官方推荐，使用poetry配置环境
 pip install pipx
 pipx install poetry
+pipx ensurepath
 poetry install
 #poetry 环境下运行代码需要在命令行指定，如
 poetry run python -m example.ModelingAgent_baseline                         
