@@ -1,5 +1,7 @@
 # 竞x赛  
 
+[比赛官网](https://tsinghua-fib-lab.github.io/AgentSocietyChallenge/pages/overview.html)|[WWW2025](https://www2025.thewebconf.org/accepted-competitions)
+
 防检索  
 
 ## 配置环境  
