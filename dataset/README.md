@@ -229,3 +229,44 @@ dataset
 | language_code        |  128435 | 48.63%                  |                |
 | edition_information  |   16125 | 93.55%                  |                |
 | asin                 |   20185 | 91.93%                  |                |
+
+
+# 其他 
+浅浅添加一下Amazon；Yelp和Goodreads暂未找到官方数据表格，而找到的Amazon数据表格与上面的表格有些不同，故添加在下面：
+
+## Amazon (https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023)
+### 用户评论（For User Reviews）
+
+| 字段 (Field)       | 类型 (Type) | 说明 (Explanation)                                                                                                                                                    |
+|--------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| rating             | float      | 产品评分（范围为 1.0 到 5.0）。                                                                                                                                       |
+| title              | str        | 用户评论的标题。                                                                                                                                                       |
+| text               | str        | 用户评论的正文内容。                                                                                                                                                   |
+| images             | list       | 用户收到商品后发布的图片列表。每张图片有不同尺寸（small, medium, large），分别用 small_image_url、medium_image_url 和 large_image_url 表示。                            |
+| asin               | str        | 产品的 ASIN（ID）。                                                                                                                                                   |
+| parent_asin        | str        | 产品的父级 ASIN。**注意：**具有不同颜色、款式、尺寸的产品通常共享相同的父级 ASIN。在以往的亚马逊数据集中，“asin” 实际上就是父级 ASIN。请使用父级 ASIN 查找产品元信息。 |
+| user_id            | str        | 评论者的用户 ID。                                                                                                                                                     |
+| timestamp          | int        | 评论的时间（Unix 时间戳）。                                                                                                                                            |
+| verified_purchase  | bool       | 是否为已验证购买。                                                                                                                                                     |
+| helpful_vote       | int        | 该评论获得的“有帮助”票数。                                                                                                                                             |
+
+---
+
+### 产品元信息（For Item Metadata）
+
+| 字段 (Field)       | 类型 (Type) | 说明 (Explanation)                                                                                                                             |
+|--------------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| main_category      | str        | 产品的主要类别（例如所在领域）。                                                                                                                    |
+| title              | str        | 产品名称。                                                                                                                                      |
+| average_rating     | float      | 产品页面上显示的平均评分。                                                                                                                       |
+| rating_number      | int        | 产品的评分数量。                                                                                                                                |
+| features           | list       | 产品特征，以要点（bullet-point）形式列出。                                                                                                       |
+| description        | list       | 产品描述。                                                                                                                                      |
+| price              | float      | 以美元计价的产品价格（爬取时的价格）。                                                                                                            |
+| images             | list       | 产品图片列表。每张图片有不同尺寸（thumb, large, hi_res），其中 “variant” 字段表示图片所在位置或种类。                                               |
+| videos             | list       | 产品相关视频，包括标题和链接（url）。                                                                                                            |
+| store              | str        | 产品所属店铺名称。                                                                                                                               |
+| categories         | list       | 产品的分层类别。                                                                                                                                |
+| details            | dict       | 产品的详细信息，例如材料、品牌、尺寸等。                                                                                                         |
+| parent_asin        | str        | 产品的父级 ASIN。                                                                                                                                |
+| bought_together    | list       | 网站推荐的捆绑购买列表。                                                                                                                        |
